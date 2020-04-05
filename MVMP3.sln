@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVMP3", "MVMP3\MVMP3.csproj", "{366CFBA1-8910-434C-8445-AF3492BB211C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVMP3.Tests", "MVMP3.Tests\MVMP3.Tests.csproj", "{DD908453-9C51-4573-B2DA-F4E3D45447FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{366CFBA1-8910-434C-8445-AF3492BB211C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{366CFBA1-8910-434C-8445-AF3492BB211C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{366CFBA1-8910-434C-8445-AF3492BB211C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{366CFBA1-8910-434C-8445-AF3492BB211C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD908453-9C51-4573-B2DA-F4E3D45447FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD908453-9C51-4573-B2DA-F4E3D45447FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD908453-9C51-4573-B2DA-F4E3D45447FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD908453-9C51-4573-B2DA-F4E3D45447FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37891917-92A4-491A-B7C7-7C5C3A598187}
+	EndGlobalSection
+EndGlobal
