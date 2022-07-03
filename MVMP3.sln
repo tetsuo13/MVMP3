@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29905.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVMP3", "MVMP3\MVMP3.csproj", "{366CFBA1-8910-434C-8445-AF3492BB211C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVMP3", "MVMP3\MVMP3.csproj", "{366CFBA1-8910-434C-8445-AF3492BB211C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVMP3.Tests", "MVMP3.Tests\MVMP3.Tests.csproj", "{DD908453-9C51-4573-B2DA-F4E3D45447FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVMP3.Tests", "MVMP3.Tests\MVMP3.Tests.csproj", "{DD908453-9C51-4573-B2DA-F4E3D45447FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{ED3776EC-4860-44E3-ABA9-E79D42A78A13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DD908453-9C51-4573-B2DA-F4E3D45447FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD908453-9C51-4573-B2DA-F4E3D45447FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD908453-9C51-4573-B2DA-F4E3D45447FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED3776EC-4860-44E3-ABA9-E79D42A78A13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED3776EC-4860-44E3-ABA9-E79D42A78A13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED3776EC-4860-44E3-ABA9-E79D42A78A13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED3776EC-4860-44E3-ABA9-E79D42A78A13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

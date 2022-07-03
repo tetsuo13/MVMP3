@@ -28,7 +28,7 @@ namespace MVMP3.Mappers
 
                 if (mp3.Tag == null)
                 {
-                    Console.WriteLine($"{filePath} missing tag. Skipping.");
+                    //Console.WriteLine($"{filePath} missing tag. Skipping.");
                     continue;
                 }
 
@@ -36,7 +36,7 @@ namespace MVMP3.Mappers
 
                 if (string.IsNullOrEmpty(artistName))
                 {
-                    Console.WriteLine($"{filePath} missing artist. Skipping");
+                    //Console.WriteLine($"{filePath} missing artist. Skipping");
                     continue;
                 }
 
@@ -83,7 +83,7 @@ namespace MVMP3.Mappers
                 .SelectMany(x => x.Albums)
                 .Sum(x => x.Songs.Count);
 
-            Console.WriteLine($"Found {Artists.Count:n0} artists, {totalAlbums:n0} albums, and {totalSongs:n0} songs.");
+            //Console.WriteLine($"Found {Artists.Count:n0} artists, {totalAlbums:n0} albums, and {totalSongs:n0} songs.");
         }
     }
 }

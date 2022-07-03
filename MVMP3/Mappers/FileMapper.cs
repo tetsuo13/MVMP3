@@ -51,7 +51,7 @@ namespace MVMP3.Mappers
         {
             if (Verbose)
             {
-                Console.WriteLine(s);
+                //Console.WriteLine(s);
             }
         }
 
