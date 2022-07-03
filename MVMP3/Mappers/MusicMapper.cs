@@ -21,7 +21,10 @@ namespace MVMP3.Mappers
         {
             foreach (var filePath in Directory.EnumerateFiles(BasePath, "*.mp3", SearchOption.AllDirectories))
             {
-                var mp3 = TagLib.File.Create(filePath);
+                try
+                {
+                    var mp3 = TagLib.File.Create(filePath);
+              
 
                 if (mp3.Tag == null)
                 {
@@ -45,6 +48,11 @@ namespace MVMP3.Mappers
                     Artists.Add(artist);
                 }
 
+                if (mp3.Tag == null || mp3.Tag.Album == null || mp3.Tag.Title == null)
+                {
+                    continue;
+                }
+
                 var albumName = mp3.Tag.Album.Trim();
                 var album = artist.Albums.SingleOrDefault(x => x.Name == albumName);
 
@@ -59,6 +67,11 @@ namespace MVMP3.Mappers
                 if (!album.Songs.Any(x => x.Name == song))
                 {
                     album.AddSong(new Song(song, mp3.Tag.Track, filePath));
+                }
+                }
+                catch (Exception ex)
+                {
+                    continue;
                 }
             }
         }
