@@ -13,4 +13,6 @@ Organze files without metadata in unknown
   OR
 Find a WebApi to fetch data if possible
 
+Ogg/FLAC support
+
 
