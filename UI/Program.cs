@@ -1,3 +1,7 @@
+using Lemon.NLog.WinForms;
+using NLog;
+using NLog.Config;
+
 namespace UI
 {
     internal static class Program
@@ -8,10 +12,22 @@ namespace UI
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            var form1 = new Form1();
+            Initialize(form1);
+            Application.Run(form1);
         }
+
+        public static void Initialize(Form1 input)
+        {
+            Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+
+            LoggingConfiguration config = new LoggingConfiguration();
+            config.AddRule(LogLevel.Trace, LogLevel.Fatal, new TextBoxTarget(input.LoggerBox) { Layout = "[${date}] [${level}] ${message}" });
+            //config.AddRule(LogLevel.Trace, LogLevel.Fatal, new ToolStripStatusLabelTarget(form.LogToolStripStatusLabel) { Layout = "${message}" });
+            LogManager.Configuration = config;
+        }
+
     }
 }
