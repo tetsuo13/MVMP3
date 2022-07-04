@@ -7,4 +7,10 @@ Bugs:
 - Make sure it exits ok
 - Notify when complete
 
+To do:
+
+Organze files without metadata in unknown
+  OR
+Find a WebApi to fetch data if possible
+
 
