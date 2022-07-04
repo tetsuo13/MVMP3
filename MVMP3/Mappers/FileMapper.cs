@@ -12,8 +12,10 @@ namespace MVMP3.Mappers
         private readonly string DestinationPath;
         private readonly IEnumerable<Artist> Artists;
 
-        public FileMapper(string destinationPath, IEnumerable<Artist> artists)
+        private NLog.Logger log;
+        public FileMapper(string destinationPath, IEnumerable<Artist> artists, NLog.Logger log)
         {
+            this.log = log;
             DestinationPath = destinationPath;
             Artists = artists;
         }
@@ -49,10 +51,8 @@ namespace MVMP3.Mappers
 
         private void Output(string s)
         {
-            if (Verbose)
-            {
-                //Console.WriteLine(s);
-            }
+            //check into levels
+             log.Info (s);
         }
 
         private void WriteArtists(IEnumerable<Artist> artists, string path)

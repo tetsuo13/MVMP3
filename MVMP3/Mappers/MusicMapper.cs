@@ -12,8 +12,10 @@ namespace MVMP3.Mappers
 
         private readonly string BasePath;
 
-        public MusicMapper(string basePath)
+        private NLog.Logger log;
+        public MusicMapper(string basePath, NLog.Logger log)
         {
+            this.log = log;
             BasePath = basePath;
         }
 
@@ -25,52 +27,53 @@ namespace MVMP3.Mappers
                 {
                     var mp3 = TagLib.File.Create(filePath);
               
+                    if (mp3.Tag == null)
+                    {
+                        log.Warn  ($"{filePath} missing tag. Skipping.");
+                        continue;
+                    }
 
-                if (mp3.Tag == null)
-                {
-                    //Console.WriteLine($"{filePath} missing tag. Skipping.");
-                    continue;
-                }
+                    var artistName = mp3.Tag.FirstPerformer?.Trim();
 
-                var artistName = mp3.Tag.FirstPerformer?.Trim();
+                    if (string.IsNullOrEmpty(artistName))
+                    {
+                        log.Warn  ($"{filePath} missing artist. Skipping");
+                        continue;
+                    }
 
-                if (string.IsNullOrEmpty(artistName))
-                {
-                    //Console.WriteLine($"{filePath} missing artist. Skipping");
-                    continue;
-                }
+                    var artist = Artists.SingleOrDefault(x => x.Name == artistName);
 
-                var artist = Artists.SingleOrDefault(x => x.Name == artistName);
+                    if (artist == null)
+                    {
+                        artist = new Artist(artistName);
+                        Artists.Add(artist);
+                    }
 
-                if (artist == null)
-                {
-                    artist = new Artist(artistName);
-                    Artists.Add(artist);
-                }
+                    if (mp3.Tag == null || mp3.Tag.Album == null || mp3.Tag.Title == null)
+                    {
+                        continue;
+                    }
 
-                if (mp3.Tag == null || mp3.Tag.Album == null || mp3.Tag.Title == null)
-                {
-                    continue;
-                }
+                    var albumName = mp3.Tag.Album.Trim();
+                    var album = artist.Albums.SingleOrDefault(x => x.Name == albumName);
 
-                var albumName = mp3.Tag.Album.Trim();
-                var album = artist.Albums.SingleOrDefault(x => x.Name == albumName);
+                    if (album == null)
+                    {
+                        album = new Album(albumName);
+                        artist.AddAlbum(album);
+                    }
 
-                if (album == null)
-                {
-                    album = new Album(albumName);
-                    artist.AddAlbum(album);
-                }
+                    var song = mp3.Tag.Title.Trim();
 
-                var song = mp3.Tag.Title.Trim();
-
-                if (!album.Songs.Any(x => x.Name == song))
-                {
-                    album.AddSong(new Song(song, mp3.Tag.Track, filePath));
-                }
+                    if (!album.Songs.Any(x => x.Name == song))
+                    {
+                        album.AddSong(new Song(song, mp3.Tag.Track, filePath));
+                    }
                 }
                 catch (Exception ex)
                 {
+                    //what to do depends on the error
+                    log.Error(ex.Message);
                     continue;
                 }
             }

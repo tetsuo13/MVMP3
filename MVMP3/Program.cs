@@ -13,21 +13,21 @@ namespace MVMP3
 
         public bool Verbose { get; }
 
-        public void Start(string src_dir, string dest_dir)
+        public void Start(string src_dir, string dest_dir, NLog.Logger log)
         {
             var destinationPath = Directory.GetCurrentDirectory();
 
-            //Console.WriteLine($"Source: {SourcePath}");
-            //Console.WriteLine($"Searching '{SourcePath}' for music...");
+            log.Info ($"Source: {SourcePath}");
+            log.Info ($"Searching '{SourcePath}' for music...");
 
-            var musicMapper = new MusicMapper(src_dir);
+            var musicMapper = new MusicMapper(src_dir,log);
             musicMapper.Map();
 
             musicMapper.DisplaySummary();
 
-            //Console.WriteLine($"Saving files under '{destinationPath}'");
+            log.Info ($"Saving files under '{destinationPath}'");
 
-            var fileMapper = new FileMapper(dest_dir, musicMapper.Artists);
+            var fileMapper = new FileMapper(dest_dir, musicMapper.Artists,log);
             fileMapper.Verbose = Verbose;
             fileMapper.Map();
         }

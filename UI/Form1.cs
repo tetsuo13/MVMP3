@@ -1,7 +1,11 @@
+using NLog;
+
 namespace UI
 {
     public partial class Form1 : Form
     {
+        private readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public Form1()
         {
             InitializeComponent();
@@ -27,7 +31,9 @@ namespace UI
             this.button1.Enabled = false;
 
             var prg = new MVMP3.Program();
-            prg.Start (this.textBox1.Text, this.textBox2.Text);
+
+            new Thread(() =>
+                prg.Start (this.textBox1.Text, this.textBox2.Text,this.Logger)).Start ();
 
             this.textBox1.Enabled = true;
             this.textBox2.Enabled = true;
