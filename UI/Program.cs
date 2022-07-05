@@ -12,12 +12,12 @@ namespace UI
         [STAThread]
         static void Main()
         {
-            var form1 = new Form1();
+            var form1 = new Main();
             Initialize(form1);
             Application.Run(form1);
         }
 
-        public static void Initialize(Form1 input)
+        public static void Initialize(Main input)
         {
             Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);

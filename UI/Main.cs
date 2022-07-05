@@ -2,11 +2,11 @@ using NLog;
 
 namespace UI
 {
-    public partial class Form1 : Form
+    public partial class Main : Form
     {
         private readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public Form1()
+        public Main()
         {
             InitializeComponent();
         }
@@ -49,6 +49,11 @@ namespace UI
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new About().ShowDialog();
         }
     }
 }
