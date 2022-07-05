@@ -4,7 +4,7 @@ Uses EXIF data
 Bugs:
 
 - Disable & enable buttons
-- Make sure it exits ok
+- Make sure it exits ok [aka progress bar / optional stop button ]
 - Notify when complete
 
 To do:
