@@ -2,17 +2,17 @@
 
 namespace MVMP3.Models
 {
-    public class Artist
+    public class MvMp3Artist
     {
         public string Name { get; private set; }
-        public List<Album> Albums { get; private set; } = new List<Album>();
+        public List<MvMp3Album> Albums { get; private set; } = new List<MvMp3Album>();
 
-        public Artist(string name)
+        public MvMp3Artist(string name)
         {
             Name = name;
         }
 
-        public void AddAlbum(Album album)
+        public void AddAlbum(MvMp3Album album)
         {
             Albums.Add(album);
         }

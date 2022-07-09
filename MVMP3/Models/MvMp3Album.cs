@@ -2,12 +2,12 @@
 
 namespace MVMP3.Models
 {
-    public class Album
+    public class MvMp3Album
     {
         public string Name { get; private set; }
         public List<Song> Songs { get; private set; } = new List<Song>();
 
-        public Album(string name)
+        public MvMp3Album(string name)
         {
             Name = name;
         }

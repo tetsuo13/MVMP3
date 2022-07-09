@@ -10,10 +10,10 @@ namespace MVMP3.Mappers
         public bool Verbose { get; set; }
 
         private readonly string DestinationPath;
-        private readonly IEnumerable<Artist> Artists;
+        private readonly IEnumerable<MvMp3Artist> Artists;
 
         private NLog.Logger log;
-        public FileMapper(string destinationPath, IEnumerable<Artist> artists, NLog.Logger log)
+        public FileMapper(string destinationPath, IEnumerable<MvMp3Artist> artists, NLog.Logger log)
         {
             this.log = log;
             DestinationPath = destinationPath;
@@ -55,7 +55,7 @@ namespace MVMP3.Mappers
              log.Info (s);
         }
 
-        private void WriteArtists(IEnumerable<Artist> artists, string path)
+        private void WriteArtists(IEnumerable<MvMp3Artist> artists, string path)
         {
             foreach (var artist in artists)
             {
@@ -70,7 +70,7 @@ namespace MVMP3.Mappers
             }
         }
 
-        private void WriteAlbumsFromArtist(Artist artist, string path)
+        private void WriteAlbumsFromArtist(MvMp3Artist artist, string path)
         {
             foreach (var album in artist.Albums)
             {
@@ -85,7 +85,7 @@ namespace MVMP3.Mappers
             }
         }
 
-        private void WriteSongsFromAlbum(Album album, string path)
+        private void WriteSongsFromAlbum(MvMp3Album album, string path)
         {
             foreach (var song in album.Songs)
             {

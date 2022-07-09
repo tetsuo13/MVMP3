@@ -13,6 +13,21 @@ namespace MVMP3
 
         public bool Verbose { get; }
 
+        private static void removeEmptyDir(string startLocation, NLog.Logger log)
+        {
+            foreach (var directory in Directory.GetDirectories(startLocation))
+            {
+                removeEmptyDir(directory, log);
+                if (Directory.GetFiles(directory).Length == 0 &&
+                    Directory.GetDirectories(directory).Length == 0)
+                {
+                    log.Info("Deleting empty dir " + directory);
+                    Directory.Delete(directory, false);
+                }
+            }
+        }
+
+
         public void Start(string src_dir, string dest_dir, NLog.Logger log)
         {
             var destinationPath = Directory.GetCurrentDirectory();
@@ -30,6 +45,8 @@ namespace MVMP3
             var fileMapper = new FileMapper(dest_dir, musicMapper.Artists,log);
             fileMapper.Verbose = Verbose;
             fileMapper.Map();
+
+            removeEmptyDir(destinationPath,log);
         }
     }
 }

@@ -56,11 +56,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(167, 177);
+            this.label3.Location = new System.Drawing.Point(134, 171);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(171, 20);
+            this.label3.Size = new System.Drawing.Size(230, 20);
             this.label3.TabIndex = 2;
-            this.label3.Text = "UI added by Kevin Sheth";
+            this.label3.Text = "UI/features added by Kevin Sheth";
             // 
             // About
             // 
