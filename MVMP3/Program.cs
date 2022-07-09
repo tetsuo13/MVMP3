@@ -30,7 +30,8 @@ namespace MVMP3
 
         public void Start(string src_dir, string dest_dir, NLog.Logger log)
         {
-            var destinationPath = Directory.GetCurrentDirectory();
+            
+            //var destinationPath = Directory.GetCurrentDirectory();
 
             log.Info ($"Source: {SourcePath}");
             log.Info ($"Searching '{SourcePath}' for music...");
@@ -40,13 +41,13 @@ namespace MVMP3
 
             musicMapper.DisplaySummary();
 
-            log.Info ($"Saving files under '{destinationPath}'");
+            log.Info ($"Saving files under '{dest_dir}'");
 
             var fileMapper = new FileMapper(dest_dir, musicMapper.Artists,log);
             fileMapper.Verbose = Verbose;
             fileMapper.Map();
 
-            removeEmptyDir(destinationPath,log);
+            removeEmptyDir(dest_dir, log);
         }
     }
 }
