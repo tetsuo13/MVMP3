@@ -22,43 +22,29 @@ namespace MVMP3.Mappers
         static Object artistlock = new Object();
         static int artistcount = 0;
 
-        public int CountArtist
+        public static string CountUnknownArtist
         {
             get
             {
                 lock (artistlock)
                 {
                     artistcount++;
-                    return artistcount;
+                    return "Unknown Artist " + artistcount;
                 }
             }
         }
 
         class UnknownTag : TagLib.Tag
         {
-            static Object alock = new Object();
-            static int count = 0;
-
-            public int Count 
-            {
-                get {
-                    lock(alock)
-                    {
-                        count++;
-                        return count;
-                    }
-                }
-            }
-
             public override TagLib.TagTypes TagTypes => TagLib.TagTypes.Id3v2;
 
             public UnknownTag(string fileName)
             {
-                string artist = "Unknown : " + fileName;
+                string artist = CountUnknownArtist;
                 this.Performers = new string[] { artist };
                 this.Album = "Unknown Album";
                 this.Track = 1;
-                this.Title = Count + Path.GetFileName(fileName);
+                this.Title = Path.GetFileName(fileName);
             }
 
        
@@ -79,10 +65,10 @@ namespace MVMP3.Mappers
                 try
                 {
                     var mp3tag = TagLib.File.Create(filePath).Tag;
-              
+
                     if (mp3tag == null)
                     {
-                        log.Warn  ($"{filePath} missing tag. Placing in Unknown category.");
+                        log.Warn($"{filePath} missing tag. Placing in Unknown category.");
                         mp3tag = new UnknownTag(filePath);
                     }
 
@@ -90,32 +76,24 @@ namespace MVMP3.Mappers
 
                     if (string.IsNullOrEmpty(artistName))
                     {
-                        log.Warn  ($"{filePath} missing artist. Placing in Unknown category.");
-                        mp3tag.Performers = new string[] { "Unknown Artist " + CountArtist };
+                        log.Warn($"{filePath} missing artist. Placing in Unknown category.");
+                        mp3tag.Performers = new string[] { CountUnknownArtist };
                         artistName = mp3tag.FirstPerformer?.Trim();
                     }
 
-                    var artist = Artists.SingleOrDefault(x => x.Name == artistName);
+                    MvMp3Artist artist = AddArtist(artistName);
 
-                    if (artist == null)
+                    if (mp3tag.Album == null)
                     {
-                        artist = new MvMp3Artist(artistName);
-                        Artists.Add(artist);
+                        mp3tag.Album = "Unknown Album";
                     }
 
-                    if (mp3tag == null || mp3tag.Album == null || mp3tag.Title == null)
+                    if (mp3tag.Title == null)
                     {
-                        continue;
+                        mp3tag.Title = Path.GetFileName(filePath);
                     }
 
-                    var albumName = mp3tag.Album.Trim();
-                    var album = artist.Albums.SingleOrDefault(x => x.Name == albumName);
-
-                    if (album == null)
-                    {
-                        album = new MvMp3Album(albumName);
-                        artist.AddAlbum(album);
-                    }
+                    MvMp3Album album = AddAlbum(mp3tag, artist);
 
                     var song = mp3tag.Title.Trim();
 
@@ -131,6 +109,33 @@ namespace MVMP3.Mappers
                     continue;
                 }
             }
+        }
+
+        private static MvMp3Album AddAlbum(TagLib.Tag mp3tag, MvMp3Artist artist)
+        {
+            var albumName = mp3tag.Album.Trim();
+            var album = artist.Albums.SingleOrDefault(x => x.Name == albumName);
+
+            if (album == null)
+            {
+                album = new MvMp3Album(albumName);
+                artist.AddAlbum(album);
+            }
+
+            return album;
+        }
+
+        private MvMp3Artist AddArtist(string artistName)
+        {
+            var artist = Artists.SingleOrDefault(x => x.Name == artistName);
+
+            if (artist == null)
+            {
+                artist = new MvMp3Artist(artistName);
+                Artists.Add(artist);
+            }
+
+            return artist;
         }
 
         public void DisplaySummary()
