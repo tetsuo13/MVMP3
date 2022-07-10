@@ -33,7 +33,7 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.LoggerBox = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
@@ -83,12 +83,12 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(97, 210);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(612, 214);
-            this.textBox4.TabIndex = 7;
-            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
+            this.LoggerBox.Location = new System.Drawing.Point(97, 210);
+            this.LoggerBox.Multiline = true;
+            this.LoggerBox.Name = "LoggerBox";
+            this.LoggerBox.Size = new System.Drawing.Size(612, 214);
+            this.LoggerBox.TabIndex = 7;
+            this.LoggerBox.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // menuStrip1
             // 
@@ -113,7 +113,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.LoggerBox);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label2);
@@ -138,7 +138,6 @@
         private TextBox textBox2;
         private Label label2;
         private Button button1;
-        private TextBox textBox4;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem aboutToolStripMenuItem;
     }

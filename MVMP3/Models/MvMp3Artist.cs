@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 
-namespace MVMP3.Models
+namespace MVMP3.Models;
+
+public class MvMp3Artist
 {
-    public class MvMp3Artist
+    public MvMp3Artist(string name)
     {
-        public string Name { get; private set; }
-        public List<MvMp3Album> Albums { get; private set; } = new List<MvMp3Album>();
+        Name = name;
+    }
 
-        public MvMp3Artist(string name)
-        {
-            Name = name;
-        }
+    public string Name { get; }
+    public List<MvMp3Album> Albums { get; } = new();
 
-        public void AddAlbum(MvMp3Album album)
-        {
-            Albums.Add(album);
-        }
+    public void AddAlbum(MvMp3Album album)
+    {
+        Albums.Add(album);
     }
 }
