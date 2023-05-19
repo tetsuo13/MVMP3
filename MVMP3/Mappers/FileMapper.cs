@@ -3,106 +3,105 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace MVMP3.Mappers
+namespace MVMP3.Mappers;
+
+public class FileMapper
 {
-    public class FileMapper
+    public bool Verbose { get; set; }
+
+    private readonly string DestinationPath;
+    private readonly IEnumerable<Artist> Artists;
+
+    public FileMapper(string destinationPath, IEnumerable<Artist> artists)
     {
-        public bool Verbose { get; set; }
+        DestinationPath = destinationPath;
+        Artists = artists;
+    }
 
-        private readonly string DestinationPath;
-        private readonly IEnumerable<Artist> Artists;
+    public void Map()
+    {
+        var destinationDirectory = $"MVMP3-{DateTime.Now:yyyyMMdd-HHmmss}";
+        var basePath = Path.Join(DestinationPath, destinationDirectory);
 
-        public FileMapper(string destinationPath, IEnumerable<Artist> artists)
+        Directory.CreateDirectory(basePath);
+
+        WriteArtists(Artists, basePath);
+    }
+
+    public string RemoveInvalidChars(string s)
+    {
+        // System-defined invalid characters.
+        s = string.Concat(s.Split(Path.GetInvalidFileNameChars()));
+
+        // Directories can't have leading or trailing periods.
+        if (s.StartsWith("."))
         {
-            DestinationPath = destinationPath;
-            Artists = artists;
+            s = s.Trim('.');
         }
 
-        public void Map()
+        if (s.EndsWith("."))
         {
-            var destinationDirectory = $"MVMP3-{DateTime.Now:yyyyMMdd-HHmmss}";
-            var basePath = Path.Join(DestinationPath, destinationDirectory);
-
-            Directory.CreateDirectory(basePath);
-
-            WriteArtists(Artists, basePath);
+            s = s.TrimEnd('.');
         }
 
-        public string RemoveInvalidChars(string s)
+        return s;
+    }
+
+    private void Output(string s)
+    {
+        if (Verbose)
         {
-            // System-defined invalid characters.
-            s = string.Concat(s.Split(Path.GetInvalidFileNameChars()));
-
-            // Directories can't have leading or trailing periods.
-            if (s.StartsWith("."))
-            {
-                s = s.Trim('.');
-            }
-
-            if (s.EndsWith("."))
-            {
-                s = s.TrimEnd('.');
-            }
-
-            return s;
+            Console.WriteLine(s);
         }
+    }
 
-        private void Output(string s)
+    private void WriteArtists(IEnumerable<Artist> artists, string path)
+    {
+        foreach (var artist in artists)
         {
-            if (Verbose)
-            {
-                Console.WriteLine(s);
-            }
+            Output(artist.Name);
+
+            var artistName = RemoveInvalidChars(artist.Name);
+            var artistDirectory = Path.Combine(path, artistName);
+
+            Directory.CreateDirectory(artistDirectory);
+
+            WriteAlbumsFromArtist(artist, artistDirectory);
         }
+    }
 
-        private void WriteArtists(IEnumerable<Artist> artists, string path)
+    private void WriteAlbumsFromArtist(Artist artist, string path)
+    {
+        foreach (var album in artist.Albums)
         {
-            foreach (var artist in artists)
-            {
-                Output(artist.Name);
+            Output($"\t{album.Name}");
 
-                var artistName = RemoveInvalidChars(artist.Name);
-                var artistDirectory = Path.Combine(path, artistName);
+            var albumName = RemoveInvalidChars(album.Name);
+            var albumDirectory = Path.Combine(path, albumName);
 
-                Directory.CreateDirectory(artistDirectory);
+            Directory.CreateDirectory(albumDirectory);
 
-                WriteAlbumsFromArtist(artist, artistDirectory);
-            }
+            WriteSongsFromAlbum(album, albumDirectory);
         }
+    }
 
-        private void WriteAlbumsFromArtist(Artist artist, string path)
+    private void WriteSongsFromAlbum(Album album, string path)
+    {
+        foreach (var song in album.Songs)
         {
-            foreach (var album in artist.Albums)
-            {
-                Output($"\t{album.Name}");
+            Output($"\t\t{song.Name}");
 
-                var albumName = RemoveInvalidChars(album.Name);
-                var albumDirectory = Path.Combine(path, albumName);
+            var songName = string.Format("{0:D2} - {1}{2}",
+                song.Track,
+                RemoveInvalidChars(song.Name),
+                Path.GetExtension(song.FilePath));
 
-                Directory.CreateDirectory(albumDirectory);
+            var songDirectory = Path.Combine(path, songName);
 
-                WriteSongsFromAlbum(album, albumDirectory);
-            }
-        }
+            Output($"\t\tFrom {song.FilePath}");
+            Output($"\t\tTo   {songDirectory}");
 
-        private void WriteSongsFromAlbum(Album album, string path)
-        {
-            foreach (var song in album.Songs)
-            {
-                Output($"\t\t{song.Name}");
-
-                var songName = string.Format("{0:D2} - {1}{2}",
-                    song.Track,
-                    RemoveInvalidChars(song.Name),
-                    Path.GetExtension(song.FilePath));
-
-                var songDirectory = Path.Combine(path, songName);
-
-                Output($"\t\tFrom {song.FilePath}");
-                Output($"\t\tTo   {songDirectory}");
-
-                File.Copy(song.FilePath, songDirectory);
-            }
+            File.Copy(song.FilePath, songDirectory);
         }
     }
 }
