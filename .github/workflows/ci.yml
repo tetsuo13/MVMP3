@@ -4,21 +4,28 @@ on: [push]
 
 jobs:
   build:
-    runs-on: windows-latest
+    name: Build and Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+      DOTNET_NOLOGO: true
+
     steps:
-    - uses: actions/checkout@v2
+      - name: Clone repository
+        uses: actions/checkout@v3
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.0.100
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3.0.3
+        with:
+          dotnet-version: 7.x
 
-    - name: Build
-      env:
-        DOTNET_CLI_TELEMETRY_OPTOUT: 1
-      run: dotnet build --configuration Release
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Unit tests
-      env:
-        DOTNET_CLI_TELEMETRY_OPTOUT: 1
-      run: dotnet test MVMP3.Tests --configuration Release
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Unit tests
+        run: dotnet test MVMP3.Tests --no-build --configuration Release
