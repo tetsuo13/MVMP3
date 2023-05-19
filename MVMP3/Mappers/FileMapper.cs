@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace MVMP3.Mappers;
 
@@ -11,6 +12,25 @@ public class FileMapper
 
     private readonly string DestinationPath;
     private readonly IEnumerable<Artist> Artists;
+
+    /// <summary>
+    /// File name characters that should never appear. Cross-platform
+    /// differences are normalized, i.e., double quote isn't allowed in
+    /// Windows but is allowed in Linux however it's included in this list.
+    /// </summary>
+    private readonly char[] InvalidFileNameChars = (
+        // Path separator in Linux
+        "/" +
+
+        // Unprintable character in Linux
+        Convert.ToChar(0) +
+
+        // Unprintable characters in Windows
+        @"><:""/\|?*" +
+
+        // Unprintable characters in Windows ASCII/Unicode characters 1 through 31
+        new string(Enumerable.Range(0, 32).Select(Convert.ToChar).ToArray())
+        ).ToArray();
 
     public FileMapper(string destinationPath, IEnumerable<Artist> artists)
     {
@@ -31,7 +51,7 @@ public class FileMapper
     public string RemoveInvalidChars(string s)
     {
         // System-defined invalid characters.
-        s = string.Concat(s.Split(Path.GetInvalidFileNameChars()));
+        s = string.Concat(s.Split(InvalidFileNameChars));
 
         // Directories can't have leading or trailing periods.
         if (s.StartsWith("."))
